@@ -43,6 +43,29 @@
   min-width: 0;
 }
 
+.atomic-bases-cover {
+  background-color: var(--background-modifier-hover);
+  background-image:
+    linear-gradient(to right, var(--background-modifier-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--background-modifier-border) 1px, transparent 1px);
+  background-size: 0.7em 0.7em;
+  border-radius: 0.15em;
+  color: transparent;
+  cursor: pointer;
+  outline-offset: 2px;
+  user-select: none;
+}
+
+.atomic-bases-cover[data-revealed="true"] {
+  background: none;
+  color: inherit;
+  user-select: text;
+}
+
+.atomic-bases-cover:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+}
+
 .atomic-bases-source-link {
   color: var(--text-muted);
   cursor: pointer;

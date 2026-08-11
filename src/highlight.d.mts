@@ -1,6 +1,7 @@
 export interface HighlightSegment {
   text: string;
   highlighted: boolean;
+  covered: boolean;
 }
 
 export function tokenizeHighlights(value: string): HighlightSegment[];

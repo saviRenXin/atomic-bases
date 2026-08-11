@@ -132,12 +132,42 @@ function renderAtomic(
   const propertyText = property.createSpan("atomic-bases-property-text");
 
   for (const segment of tokenizeHighlights(value)) {
-    if (segment.highlighted) {
+    if (segment.covered) {
+      renderCovered(propertyText, segment.text);
+    } else if (segment.highlighted) {
       propertyText.createEl("mark", { text: segment.text });
     } else {
       propertyText.createSpan({ text: segment.text });
     }
   }
+}
+
+function renderCovered(parent: HTMLElement, text: string): void {
+  const cover = parent.createSpan({
+    cls: "atomic-bases-cover",
+    text,
+    attr: {
+      role: "button",
+      tabindex: "0",
+      "aria-pressed": "false",
+      "aria-label": "显示背诵内容"
+    }
+  });
+
+  const toggle = (): void => {
+    const revealed = cover.dataset.revealed === "true";
+    cover.dataset.revealed = String(!revealed);
+    cover.setAttribute("aria-pressed", String(!revealed));
+    cover.setAttribute("aria-label", revealed ? "显示背诵内容" : "隐藏背诵内容");
+  };
+
+  cover.addEventListener("click", toggle);
+  cover.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    toggle();
+  });
 }
 
 async function focusAtomicProperty(

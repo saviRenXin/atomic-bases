@@ -1,24 +1,29 @@
 export function tokenizeHighlights(value) {
   const segments = [];
-  const pattern = /==([^=\n]+)==/g;
+  const pattern = /@@([^@\n]+)@@|==([^=\n]+)==/g;
   let cursor = 0;
   let match;
 
   while ((match = pattern.exec(value)) !== null) {
     if (match.index > cursor) {
-      segments.push({ text: value.slice(cursor, match.index), highlighted: false });
+      segments.push({ text: value.slice(cursor, match.index), highlighted: false, covered: false });
     }
 
-    segments.push({ text: match[1], highlighted: true });
+    const covered = match[1] !== undefined;
+    segments.push({
+      text: covered ? match[1] : match[2],
+      highlighted: !covered,
+      covered
+    });
     cursor = pattern.lastIndex;
   }
 
   if (cursor < value.length) {
-    segments.push({ text: value.slice(cursor), highlighted: false });
+    segments.push({ text: value.slice(cursor), highlighted: false, covered: false });
   }
 
   if (segments.length === 0 && value.length > 0) {
-    segments.push({ text: value, highlighted: false });
+    segments.push({ text: value, highlighted: false, covered: false });
   }
 
   return segments;
