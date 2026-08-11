@@ -51,7 +51,8 @@
   color: transparent;
   cursor: pointer;
   outline-offset: 2px;
-  padding-inline: 0.2em;
+  margin-inline: 0.15em;
+  padding-inline: 0.08em;
   user-select: none;
 }
 
