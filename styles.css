@@ -44,7 +44,8 @@
 }
 
 .atomic-bases-cover {
-  background-color: color-mix(in srgb, var(--interactive-accent) 8%, var(--background-primary));
+  --atomic-bases-cover-bg: color-mix(in srgb, var(--interactive-accent) 8%, var(--background-primary));
+  background-color: var(--atomic-bases-cover-bg);
   border: 1px solid var(--interactive-accent);
   border-radius: 0.22em;
   -webkit-box-decoration-break: clone;
@@ -58,7 +59,8 @@
 }
 
 .atomic-bases-cover[data-revealed="true"] {
-  background: none;
+  background-color: var(--atomic-bases-cover-bg);
+  background-image: none;
   color: inherit;
   user-select: text;
 }
