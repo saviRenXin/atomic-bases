@@ -1,6 +1,7 @@
 .atomic-bases-view {
   --atomic-bases-highlight-bg: var(--text-highlight-bg, #fff3a3);
   font-size: var(--bases-table-font-size, var(--font-smaller));
+  padding-inline-end: 1em;
 }
 
 .atomic-bases-list {
