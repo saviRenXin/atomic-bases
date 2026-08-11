@@ -44,15 +44,19 @@
 }
 
 .atomic-bases-cover {
-  background-color: var(--background-modifier-hover);
+  background-color: var(--background-secondary);
   background-image:
-    linear-gradient(to right, var(--background-modifier-border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--background-modifier-border) 1px, transparent 1px);
-  background-size: 0.7em 0.7em;
-  border-radius: 0.15em;
+    linear-gradient(to right, color-mix(in srgb, var(--text-muted) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--text-muted) 22%, transparent) 1px, transparent 1px);
+  background-size: 0.55em 0.55em;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 18%, transparent);
+  border-radius: 0.22em;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--background-primary) 35%, transparent);
+  box-decoration-break: clone;
   color: transparent;
   cursor: pointer;
   outline-offset: 2px;
+  padding-inline: 0.08em;
   user-select: none;
 }
 
