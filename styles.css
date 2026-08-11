@@ -1,0 +1,72 @@
+.atomic-bases-view {
+  --atomic-bases-highlight-bg: var(--text-highlight-bg, #fff3a3);
+  font-size: var(--bases-table-font-size, var(--font-smaller));
+}
+
+.atomic-bases-list {
+  margin-block: 0;
+}
+
+.atomic-bases-entry {
+  min-width: 0;
+}
+
+.atomic-bases-entry + .atomic-bases-entry {
+  margin-block-start: 0.45em;
+}
+
+.atomic-bases-card {
+  display: block;
+}
+
+.atomic-bases-property {
+  display: block;
+  margin-inline-start: 1.4em;
+}
+
+.atomic-bases-atomic-property {
+  display: grid;
+  grid-template-columns: 1em minmax(0, 1fr);
+  column-gap: 0.35em;
+  align-items: baseline;
+}
+
+.atomic-bases-atomic-property .atomic-bases-source-link {
+  grid-column: 1;
+  margin-inline-end: 0;
+  justify-self: start;
+}
+
+.atomic-bases-property-text {
+  grid-column: 2;
+  min-width: 0;
+}
+
+.atomic-bases-source-link {
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline;
+  font: inherit;
+  font-size: 0.75em;
+  line-height: 1;
+  margin-inline-end: 0.35em;
+  opacity: 0.75;
+  user-select: none;
+  vertical-align: 0.08em;
+}
+
+.atomic-bases-source-link:hover {
+  color: var(--text-accent);
+  opacity: 1;
+}
+
+.atomic-bases-property mark {
+  background-color: var(--atomic-bases-highlight-bg);
+  color: inherit;
+}
+
+.atomic-bases-group-header {
+  color: var(--text-muted);
+  font-weight: var(--font-semibold);
+  margin-block: 0.75em 0.25em;
+}
