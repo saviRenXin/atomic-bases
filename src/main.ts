@@ -7,12 +7,16 @@ import {
   TFile,
   type PaneType
 } from "obsidian";
+import { resolveCoverMode, type CoverMode, type CoverModeSetting } from "./cover-mode.mjs";
 import { findAtomicPropertyLocation, tokenizeHighlights } from "./highlight.mjs";
 
 const VIEW_TYPE = "atomic-highlight-list";
+const COVER_MODE_CLASS_PREFIX = "atomic-bases-cover-mode-";
+const COVER_SELECTOR = ".atomic-bases-cover";
 
 export default class AtomicBasesPlugin extends Plugin {
   async onload(): Promise<void> {
+    this.app.workspace.trigger("parse-style-settings");
     this.registerBasesView(VIEW_TYPE, {
       name: "高亮列表",
       icon: "highlighter",
@@ -20,6 +24,11 @@ export default class AtomicBasesPlugin extends Plugin {
         return new AtomicHighlightView(controller, containerEl);
       }
     });
+
+    const observer = new MutationObserver(updateCoverModes);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    this.register(() => observer.disconnect());
+    updateCoverModes();
   }
 }
 
@@ -155,12 +164,15 @@ function renderCovered(parent: HTMLElement, text: string): void {
   });
 
   const toggle = (): void => {
+    if (cover.dataset.mode !== "click") return;
+
     const revealed = cover.dataset.revealed === "true";
     cover.dataset.revealed = String(!revealed);
     cover.setAttribute("aria-pressed", String(!revealed));
     cover.setAttribute("aria-label", revealed ? "显示背诵内容" : "隐藏背诵内容");
   };
 
+  applyCoverMode(cover, getCoverMode());
   cover.addEventListener("click", toggle);
   cover.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" && event.key !== " ") return;
@@ -168,6 +180,43 @@ function renderCovered(parent: HTMLElement, text: string): void {
     event.preventDefault();
     toggle();
   });
+}
+
+function getCoverModeSetting(): CoverModeSetting {
+  const configuredClass = Array.from(document.body.classList).find((className) =>
+    className.startsWith(COVER_MODE_CLASS_PREFIX)
+  );
+  const configuredMode = configuredClass?.slice(COVER_MODE_CLASS_PREFIX.length);
+
+  if (configuredMode === "click" || configuredMode === "hover") return configuredMode;
+  return "auto";
+}
+
+function getCoverMode(): CoverMode {
+  const hoverCapable = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  return resolveCoverMode(getCoverModeSetting(), hoverCapable);
+}
+
+function updateCoverModes(): void {
+  const mode = getCoverMode();
+  document.querySelectorAll<HTMLElement>(COVER_SELECTOR).forEach((cover) => {
+    applyCoverMode(cover, mode);
+  });
+}
+
+function applyCoverMode(cover: HTMLElement, mode: CoverMode): void {
+  const changed = cover.dataset.mode !== mode;
+  cover.dataset.mode = mode;
+
+  if (mode === "hover") {
+    delete cover.dataset.revealed;
+    cover.setAttribute("aria-pressed", "false");
+    cover.setAttribute("aria-label", "鼠标悬浮显示背诵内容");
+  } else if (changed) {
+    delete cover.dataset.revealed;
+    cover.setAttribute("aria-pressed", "false");
+    cover.setAttribute("aria-label", "显示背诵内容");
+  }
 }
 
 async function focusAtomicProperty(

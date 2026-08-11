@@ -1,7 +1,7 @@
 {
   "id": "atomic-bases",
   "name": "Atomic Bases 高亮",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "minAppVersion": "1.10.0",
   "description": "在 Bases 的 atomic 属性中渲染 ==高亮== 语法。",
   "author": "renxin",

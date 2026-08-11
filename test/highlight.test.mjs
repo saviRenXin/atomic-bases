@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { resolveCoverMode } from "../src/cover-mode.mjs";
 import { findAtomicPropertyLocation, tokenizeHighlights } from "../src/highlight.mjs";
+
+test("resolves automatic cover mode for pointer capabilities", () => {
+  assert.equal(resolveCoverMode("auto", true), "hover");
+  assert.equal(resolveCoverMode("auto", false), "click");
+  assert.equal(resolveCoverMode("click", true), "click");
+  assert.equal(resolveCoverMode("hover", false), "hover");
+});
 
 test("tokenizes multiple highlight segments", () => {
   assert.deepEqual(tokenizeHighlights("==Z语言== 属于 ==形式化方法==。"), [

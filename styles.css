@@ -1,3 +1,26 @@
+/* @settings
+name: Atomic Bases
+id: atomic-bases
+settings:
+  -
+    id: atomic-bases-cover-mode
+    title: 遮罩交互方式
+    description: 自动在电脑端使用悬浮、移动端使用点击
+    type: class-select
+    allowEmpty: false
+    default: atomic-bases-cover-mode-auto
+    options:
+      -
+        label: 自动（电脑悬浮，手机点击）
+        value: atomic-bases-cover-mode-auto
+      -
+        label: 点击
+        value: atomic-bases-cover-mode-click
+      -
+        label: 悬浮
+        value: atomic-bases-cover-mode-hover
+*/
+
 .atomic-bases-view {
   --atomic-bases-highlight-bg: var(--text-highlight-bg, #fff3a3);
   font-size: var(--bases-table-font-size, var(--font-smaller));
@@ -58,7 +81,9 @@
   user-select: none;
 }
 
-.atomic-bases-cover[data-revealed="true"] {
+.atomic-bases-cover[data-mode="click"][data-revealed="true"],
+.atomic-bases-cover[data-mode="hover"]:hover,
+.atomic-bases-cover[data-mode="hover"]:focus-visible {
   background-color: var(--atomic-bases-cover-bg);
   background-image: none;
   color: inherit;
