@@ -47,12 +47,13 @@
   background-color: color-mix(in srgb, var(--interactive-accent) 8%, var(--background-primary));
   border: 1px solid var(--interactive-accent);
   border-radius: 0.22em;
+  -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   color: transparent;
   cursor: pointer;
   outline-offset: 2px;
   margin-inline: 0.15em;
-  padding-inline: 0.08em;
+  padding: 0.08em 0.08em;
   user-select: none;
 }
 
